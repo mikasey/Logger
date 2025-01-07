@@ -50,7 +50,7 @@ int main(){
 		return 1;
 	}
 
-	AppLogger::LogMessage("AppLogger", "This is a debug message.", AppLogger::MsgType::DEBUG);                  // not displayed scince SetLoggerLevel() is WARNING_PLUS
+	AppLogger::LogMessage("AppLogger", "This is a debug message.", AppLogger::MsgType::DEBUG);                  // not displayed since SetLoggerLevel() is WARNING_PLUS
 	AppLogger::LogMessage("AppLogger", "This is a notice message.", AppLogger::MsgType::NOTICE);                // also not displayed
 	AppLogger::LogMessage("AppLogger", "This is an info message.", AppLogger::MsgType::INFO);                   // also not displayed
 	AppLogger::LogMessage("AppLogger", "This is an info message.", AppLogger::MsgType::WARNING);                // displayed

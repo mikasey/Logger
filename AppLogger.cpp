@@ -70,13 +70,14 @@ int AppLogger::AddLogger(const std::string& logger_name, const LoggerProperties&
 	}
 	catch(const std::exception& e){
 		std::cerr << "Failed to create directory for logger \"" << logger_name << "\": " << e.what() << std::endl;
+		loggers[logger_name].file_output = false;
 		return 1;
 	}
 	{
 		std::lock_guard<std::mutex> lock(logger_mutex);
 		if(loggers.find(logger_name) != loggers.end()){
 			std::cerr << "Logger already exists: " << logger_name << std::endl;
-			return 1; // Logger already exists
+			return 2; // Logger already exists
 		}
 
 		loggers[logger_name] = props;
@@ -85,7 +86,9 @@ int AppLogger::AddLogger(const std::string& logger_name, const LoggerProperties&
 			std::ios_base::openmode mode = props.append_mode ? std::ios::app : std::ios::trunc;
 			std::ofstream file(logs_dir + "/" + props.file_name, mode);
 			if(!file.is_open()){
-				return 2; // Failed to open file
+				std::cerr << "Failed to open logger stream: " << logger_name << std::endl;
+				loggers[logger_name].file_output = false;
+				return 3; // Failed to open file
 			}
 			file_streams[logger_name] = std::move(file);
 		}
@@ -109,7 +112,7 @@ void AppLogger::LogMessage(const std::string& logger_name, const std::string& ms
 	std::string formatted_message;
 	va_list args;
 	va_start(args, msg_type);
-	size_t size = std::vsnprintf(nullptr, 0, msg_format.c_str(), args) + 1;
+	size_t size = static_cast<size_t>(std::vsnprintf(nullptr, 0, msg_format.c_str(), args)) + 1;
 	va_end(args);
 
 	if(size > 1){

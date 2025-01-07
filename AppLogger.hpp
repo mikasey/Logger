@@ -23,25 +23,25 @@ public:
 	enum class LogLevel{
 		NONE = 0,
 		CRITICAL = 1,
-		ERROR = 1<<1,
-		WARNING = 1<<2,
-		INFO = 1<<3,
-		NOTICE = 1<<4,
-		DEBUG = 1<<5,
+		ERROR = 1 << 1,
+		WARNING = 1 << 2,
+		INFO = 1 << 3,
+		NOTICE = 1 << 4,
+		DEBUG = 1 << 5,
 
-		ERROR_PLUS = CRITICAL|ERROR,
-		WARNING_PLUS = ERROR_PLUS|WARNING,
-		INFO_PLUS = WARNING_PLUS|INFO,
-		NO_DEBUG = INFO_PLUS|NOTICE,
+		ERROR_PLUS = CRITICAL | ERROR,
+		WARNING_PLUS = ERROR_PLUS | WARNING,
+		INFO_PLUS = WARNING_PLUS | INFO,
+		NO_DEBUG = INFO_PLUS | NOTICE,
 		ALL = 0xff
 	};
 	enum class MsgType{
-		CRITICAL = LogLevel::CRITICAL,
-		ERROR = LogLevel::ERROR,
-		WARNING = LogLevel::WARNING,
-		INFO = LogLevel::INFO,
-		NOTICE = LogLevel::NOTICE,
-		DEBUG = LogLevel::DEBUG
+		CRITICAL = (uint8_t)LogLevel::CRITICAL,
+		ERROR = (uint8_t)LogLevel::ERROR,
+		WARNING = (uint8_t)LogLevel::WARNING,
+		INFO = (uint8_t)LogLevel::INFO,
+		NOTICE = (uint8_t)LogLevel::NOTICE,
+		DEBUG = (uint8_t)LogLevel::DEBUG
 	};
 
 	struct LoggerProperties{
